@@ -1,4 +1,6 @@
-import * as React from 'react';
+import {useState,useEffect} from 'react';
+import axios from 'axios';
+import { Typography } from '@mui/material';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
@@ -6,7 +8,21 @@ import ListSubheader from '@mui/material/ListSubheader';
 import IconButton from '@mui/material/IconButton';
 import InfoIcon from '@mui/icons-material/Info';
 
-export default function Hobbies() {
+  export default function Hobbies(){
+    const [loader,setLoader] = useState(true);
+        const [hobbies,setHobbies] = useState(null);
+    
+        const connectToServer = async  () => axios.get('http://localhost:8011/Hobbies')
+                                                .then(res=>{
+                                            
+                                                    console.log(res.data);
+                                                    setHobbies(res.data);
+                                                    setLoader(false)
+                                                }).catch(err=>console.log(err))
+    useEffect(()=>{
+       connectToServer();
+    },[])
+
   return (
     <ImageList sx={{ width: 500, height: 450 }}>
       <ImageListItem key="Subheader" cols={2}>
